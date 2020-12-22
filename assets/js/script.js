@@ -165,36 +165,37 @@ var checkAnswer = function (correctAnswer, question) {
 
 
 // loop through array of questions
-var startQuiz = function() {
+var startQuiz = function(event) {
     // loop through question array
-    for (var i = 0; i < questionArray.length; i++) {
+    if (counter < questionArray.length) {
         // create div to hold question and options
         var questionDivEl = document.createElement("div");
+        questionDivEl.setAttribute("id", counter);
 
         // question
         var questionEl = document.createElement("h2");
-        questionEl.textContent = questionArray[i].q;
+        questionEl.textContent = questionArray[counter].q;
         var questionCodeEl = document.createElement("div");
         questionCodeEl.className = "code-div";
         questionCodeEl.setAttribute('style', 'white-space: pre;');
-        questionCodeEl.textContent = questionArray[i].code;
+        questionCodeEl.textContent = questionArray[counter].code;
 
         // options
         var option1El = document.createElement("button");
         option1El.className = "option";
-        option1El.textContent = questionArray[i].a1;
+        option1El.textContent = questionArray[counter].a1;
         
         var option2El = document.createElement("button");
         option2El.className = "option";
-        option2El.textContent = questionArray[i].a2;
+        option2El.textContent = questionArray[counter].a2;
 
         var option3El = document.createElement("button");
         option3El.className = "option";
-        option3El.textContent = questionArray[i].a3;
+        option3El.textContent = questionArray[counter].a3;
 
         var option4El = document.createElement("button");
         option4El.className = "option";
-        option4El.textContent = questionArray[i].a4;
+        option4El.textContent = questionArray[counter].a4;
 
         // append question and options to questionDivEl
         questionDivEl.appendChild(questionEl);
@@ -214,29 +215,34 @@ var startQuiz = function() {
         // append questionDivEl to mainEl
         mainEl.appendChild(questionDivEl);
 
-        //checkAnswer(questionArray[i].correct, questionDivEl);
+        /*
+        if (event.target.textContent === questionArray[i+2].correct) {
+            console.log("Correct!");
+            currentScore++;
+            document.getElementById("score").textContent = currentScore;
+        }
+        else {
+            console.log("Incorrect.");
+        }*/
+
+        if (counter > 0) {
+            document.getElementById(counter - 1).remove();
+        }
+
+        counter++;
     }
 }
 
-/*var startQuiz = function () {
-    counter++
-};*/
-
-//mainEl.addEventListener("click", startQuiz);
-startQuiz();
-
+mainEl.addEventListener("click", startQuiz);
 
 
 /*
-if (event.target.textContent === questionArray[i].correct) {
+if (event.target.textContent === questionArray[counter].correct) {
     console.log("Correct!");
     currentScore++;
     document.getElementById("score").textContent = currentScore;
 }
 else {
     console.log("Incorrect.");
-}
-counter++;
-    //questionDivEl.remove();
-    //continue;*/
+}*/
 
