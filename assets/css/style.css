@@ -15,7 +15,7 @@
 
 body {
     background: var(--primary);
-    padding: 200px;
+    padding: 100px 200px;
     font-family: 'Roboto', sans-serif;
     color: var(--primary);
     font-size: 16px;
@@ -50,7 +50,13 @@ button {
 }
 
 .start-btn {
-    margin: 200px auto;
+    font-size: 24px;
+    margin: 50px auto;
+    padding: 10px var(--spacer);
+}
+
+#start-div {
+    text-align: center;
 }
 
 h2 {
@@ -74,7 +80,7 @@ h2 {
 
 .code-div {
     background: var(--tertiary);
-    max-width: 60%;
+    max-width: max-content;
     padding: var(--spacer);
     margin: var(--spacer);
     border: 2px solid rgba(0, 0, 0, 0.3);

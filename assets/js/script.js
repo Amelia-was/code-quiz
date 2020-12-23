@@ -1,5 +1,7 @@
 // global variables
 var mainEl = document.querySelector("main");
+var startBtnEl = document.querySelector(".start-btn");
+var startEl = document.querySelector("#start-div");
 var currentScore = 0;
 var counter = 0;
 
@@ -66,7 +68,7 @@ var question6 = {
 
 var question7 = {
     q: "7. What will be printed in the console when the following code is run?",
-    code: "for (var i = 0; i<4; i++) {\r\n  console.log(i);\r\n}",
+    code: "for (var i = 0; i < 4; i++) {\r\n  console.log(i);\r\n}",
     a1: "1\r\n2\r\n3\r\n4",
     a2: "0\r\n1\r\n2\r\n3",
     a3: "'0'\r\n'1'\r\n'2'\r\n'3'",
@@ -75,7 +77,7 @@ var question7 = {
 }
 
 var question8 = {
-    q: "8. Which of following creates a window with an ok and cancel button?",
+    q: "8. Which of the following creates a window with an 'OK' and 'Cancel' button?",
     code: "",
     a1: "window.confirm('Do you like hamburgers?');",
     a2: "window.alert('Do you like hamburgers?');",
@@ -165,7 +167,12 @@ var checkAnswer = function (correctAnswer, question) {
 
 
 // loop through array of questions
-var startQuiz = function(event) {
+var startQuiz = function (event) {
+    // remove start screen
+    if (event.target === startBtnEl) {
+        startEl.remove();
+    }
+
     // loop through question array
     if (counter < questionArray.length) {
         // create div to hold question and options
@@ -184,7 +191,7 @@ var startQuiz = function(event) {
         var option1El = document.createElement("button");
         option1El.className = "option";
         option1El.textContent = questionArray[counter].a1;
-        
+
         var option2El = document.createElement("button");
         option2El.className = "option";
         option2El.textContent = questionArray[counter].a2;
@@ -215,17 +222,15 @@ var startQuiz = function(event) {
         // append questionDivEl to mainEl
         mainEl.appendChild(questionDivEl);
 
-        /*
-        if (event.target.textContent === questionArray[i+2].correct) {
-            console.log("Correct!");
-            currentScore++;
-            document.getElementById("score").textContent = currentScore;
-        }
-        else {
-            console.log("Incorrect.");
-        }*/
-
         if (counter > 0) {
+            if (event.target.textContent === questionArray[counter - 1].correct) {
+                console.log("Correct!");
+                currentScore++;
+                document.getElementById("score").textContent = currentScore;
+            }
+            else {
+                console.log("Incorrect.");
+            }
             document.getElementById(counter - 1).remove();
         }
 
@@ -233,16 +238,5 @@ var startQuiz = function(event) {
     }
 }
 
-mainEl.addEventListener("click", startQuiz);
 
-
-/*
-if (event.target.textContent === questionArray[counter].correct) {
-    console.log("Correct!");
-    currentScore++;
-    document.getElementById("score").textContent = currentScore;
-}
-else {
-    console.log("Incorrect.");
-}*/
-
+mainEl.addEventListener("click", startQuiz)
