@@ -2,6 +2,8 @@
 var mainEl = document.querySelector("main");
 var startBtnEl = document.querySelector(".start-btn");
 var startEl = document.querySelector("#start-div");
+var timerEl = document.querySelector(".timer");
+var quizHeaderEl = document.querySelector(".quiz-header");
 var currentScore = 0;
 var counter = 0;
 
@@ -123,8 +125,8 @@ var questionArray = [question1, question2, question3, question4, question5, ques
 // Display question via createElement
 // event listener for click
 // check if selected matches correct
-    // if matches, update score and display correct
-    // if not, display incorrect
+// if matches, update score and display correct
+// if not, display incorrect
 // At end display score
 // allow user to input initials to save high score
 // save score and initials to localStorage
@@ -165,6 +167,51 @@ var checkAnswer = function (correctAnswer, question) {
     );
 } */
 
+// end quiz function
+var endQuiz = function () {
+    // remove questions
+    //quizHeaderEl.remove();
+    mainEl.innerHTML = "";
+
+    // create div for end quiz
+    var endQuizDivEl = document.createElement("div");
+
+    // append quiz score
+    var endQuizMessageEl = document.createElement("h2");
+    endQuizMessageEl.setAttribute("style", "white-space: pre;");
+    endQuizMessageEl.textContent = "Well done! You have completed the quiz.\nYour final score is: " + currentScore;
+
+    endQuizDivEl.appendChild(endQuizMessageEl);
+    mainEl.appendChild(endQuizDivEl);
+}
+
+
+// quiz timer
+var quizTimer = function (event) {
+    if (event.target === startBtnEl) {
+        var timeLeft = 100;
+
+        // display timer counting down from 5 minutes
+        var timeInterval = setInterval(function () {
+            var minutes = Math.floor(timeLeft / 60);
+            var seconds = timeLeft % 60;
+            if (seconds < 10 && seconds > 0) {
+                timerEl.textContent = minutes + ":0" + seconds;
+                timeLeft--;
+            }
+            else if (timeLeft > 0) {
+                timerEl.textContent = minutes + ":" + seconds;
+                timeLeft--;
+            }
+            else {
+                clearInterval(timeInterval);
+                timerEl.textContent = "";
+                endQuiz();
+            }
+        }, 1000);
+    }
+}
+
 
 // loop through array of questions
 var startQuiz = function (event) {
@@ -174,53 +221,56 @@ var startQuiz = function (event) {
     }
 
     // loop through question array
-    if (counter < questionArray.length) {
-        // create div to hold question and options
-        var questionDivEl = document.createElement("div");
-        questionDivEl.setAttribute("id", counter);
+    if (counter <= questionArray.length + 1) {
+        // check if there is a next question and append it
+        if (counter < questionArray.length) {
+            // create div to hold question and options
+            var questionDivEl = document.createElement("div");
+            questionDivEl.setAttribute("id", counter);
 
-        // question
-        var questionEl = document.createElement("h2");
-        questionEl.textContent = questionArray[counter].q;
-        var questionCodeEl = document.createElement("div");
-        questionCodeEl.className = "code-div";
-        questionCodeEl.setAttribute("style", "white-space: pre;");
-        questionCodeEl.textContent = questionArray[counter].code;
+            // question
+            var questionEl = document.createElement("h2");
+            questionEl.textContent = questionArray[counter].q;
+            var questionCodeEl = document.createElement("div");
+            questionCodeEl.className = "code-div";
+            questionCodeEl.setAttribute("style", "white-space: pre;");
+            questionCodeEl.textContent = questionArray[counter].code;
 
-        // options
-        var option1El = document.createElement("button");
-        option1El.className = "option";
-        option1El.textContent = questionArray[counter].a1;
+            // options
+            var option1El = document.createElement("button");
+            option1El.className = "option";
+            option1El.textContent = questionArray[counter].a1;
 
-        var option2El = document.createElement("button");
-        option2El.className = "option";
-        option2El.textContent = questionArray[counter].a2;
+            var option2El = document.createElement("button");
+            option2El.className = "option";
+            option2El.textContent = questionArray[counter].a2;
 
-        var option3El = document.createElement("button");
-        option3El.className = "option";
-        option3El.textContent = questionArray[counter].a3;
+            var option3El = document.createElement("button");
+            option3El.className = "option";
+            option3El.textContent = questionArray[counter].a3;
 
-        var option4El = document.createElement("button");
-        option4El.className = "option";
-        option4El.textContent = questionArray[counter].a4;
+            var option4El = document.createElement("button");
+            option4El.className = "option";
+            option4El.textContent = questionArray[counter].a4;
 
-        // append question and options to questionDivEl
-        questionDivEl.appendChild(questionEl);
-        // only append if textContent is not empty
-        if (questionCodeEl.textContent !== "") {
-            questionDivEl.appendChild(questionCodeEl);
+            // append question and options to questionDivEl
+            questionDivEl.appendChild(questionEl);
+            // only append if textContent is not empty
+            if (questionCodeEl.textContent !== "") {
+                questionDivEl.appendChild(questionCodeEl);
+            }
+            questionDivEl.appendChild(option1El);
+            questionDivEl.appendChild(option2El);
+            if (option3El.textContent !== "") {
+                questionDivEl.appendChild(option3El);
+            }
+            if (option4El.textContent !== "") {
+                questionDivEl.appendChild(option4El);
+            }
+
+            // append questionDivEl to mainEl
+            mainEl.appendChild(questionDivEl);
         }
-        questionDivEl.appendChild(option1El);
-        questionDivEl.appendChild(option2El);
-        if (option3El.textContent !== "") {
-            questionDivEl.appendChild(option3El);
-        }
-        if (option4El.textContent !== "") {
-            questionDivEl.appendChild(option4El);
-        }
-
-        // append questionDivEl to mainEl
-        mainEl.appendChild(questionDivEl);
 
         // check answer and update score
         if (counter > 0) {
@@ -236,10 +286,13 @@ var startQuiz = function (event) {
             }
             document.getElementById(counter - 1).remove();
         }
-
         counter++;
+        if (counter > questionArray.length) {
+        endQuiz();
     }
 }
+}
 
+mainEl.addEventListener("click", startQuiz);
 
-mainEl.addEventListener("click", startQuiz)
+mainEl.addEventListener("click", quizTimer);
