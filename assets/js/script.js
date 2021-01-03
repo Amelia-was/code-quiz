@@ -184,7 +184,7 @@ var startQuiz = function (event) {
         questionEl.textContent = questionArray[counter].q;
         var questionCodeEl = document.createElement("div");
         questionCodeEl.className = "code-div";
-        questionCodeEl.setAttribute('style', 'white-space: pre;');
+        questionCodeEl.setAttribute("style", "white-space: pre;");
         questionCodeEl.textContent = questionArray[counter].code;
 
         // options
@@ -222,14 +222,17 @@ var startQuiz = function (event) {
         // append questionDivEl to mainEl
         mainEl.appendChild(questionDivEl);
 
+        // check answer and update score
         if (counter > 0) {
             if (event.target.textContent === questionArray[counter - 1].correct) {
                 console.log("Correct!");
+                document.querySelector("main").className = "border-correct";
                 currentScore++;
                 document.getElementById("score").textContent = currentScore;
             }
             else {
                 console.log("Incorrect.");
+                document.querySelector("main").className = "border-incorrect";
             }
             document.getElementById(counter - 1).remove();
         }

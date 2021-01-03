@@ -31,7 +31,15 @@ h1 {
 main {
     background: var(--white);
     padding: var(--spacer);
+    border-bottom: var(--spacer) solid var(--tertiary);
+}
+
+.border-correct {
     border-bottom: var(--spacer) solid var(--secondary);
+}
+
+.border-incorrect {
+    border-bottom: var(--spacer) solid var(--accent);
 }
 
 button {
