@@ -118,8 +118,8 @@ button:hover {
 .scores {
     background-color: var(--secondary);
     border: 2px solid rgba(0, 0, 0, 0.3);
-    padding: var(--spacer);
-    margin: var(--spacer);
+    margin: var(--spacer) auto;
+    width: 50%;
 }
 
 li:nth-child(even) {

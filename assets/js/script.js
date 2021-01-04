@@ -4,12 +4,17 @@ var startBtnEl = document.querySelector(".start-btn");
 var startEl = document.querySelector("#start-div");
 var timerEl = document.querySelector(".timer");
 var quizHeaderEl = document.querySelector(".quiz-header");
+var endQuizDivEl = document.createElement("div");
 var currentScore = 0;
 var counter = 0;
 
-var highscores = JSON.parse(localStorage.getItem("scores"));
+
+var highscores = localStorage.getItem("scores");
 if (!highscores) {
     highscores = [];
+}
+else {
+    highscores = JSON.parse(localStorage.getItem("scores"));
 }
 
 // Questions
@@ -144,21 +149,30 @@ var loadScores = function () {
         var score = document.createElement("li");
         score.textContent = highscores[i].name + ": " + highscores[i].score;
         highscoresEl.appendChild(score);
-        console.log(score);
     }
 
     // append highscores to mainEl
     mainEl.appendChild(highscoresEl);
-    console.log(highscores)
+
+    // create play again/clear buttons
+    var buttonsDivEl = document.createElement("div");
+    var playAgainButtonEl = document.createElement("button");
+    playAgainButtonEl.textContent = "Play again"
+    playAgainButtonEl.setAttribute("id", "play-again")
+    var clearScoresButtonEl = document.createElement("button");
+    clearScoresButtonEl.textContent = "Clear scores";
+    clearScoresButtonEl.setAttribute("id", "clear-scores");
+
+    buttonsDivEl.appendChild(playAgainButtonEl);
+    buttonsDivEl.appendChild(clearScoresButtonEl);
+    
+    mainEl.appendChild(buttonsDivEl);
 }
 
 // end quiz and save score
 var endQuiz = function () {
     // remove questions
     mainEl.innerHTML = "";
-
-    // create div for end quiz
-    var endQuizDivEl = document.createElement("div");
 
     // append quiz score
     var endQuizMessageEl = document.createElement("h2");
@@ -186,7 +200,7 @@ var endQuiz = function () {
     enterScoreEl.appendChild(scoreInputEl);
     enterScoreEl.appendChild(submitButtonEl)
 
-    mainEl.appendChild(enterScoreEl);
+    endQuizDivEl.appendChild(enterScoreEl);
 
     // listener for form submit
     enterScoreEl.addEventListener("submit", function(event) {
@@ -206,7 +220,8 @@ var endQuiz = function () {
         localStorage.setItem("scores", JSON.stringify(highscores));
 
         // clear form and load scores
-        mainEl.removeChild(enterScoreEl);
+        mainEl.removeChild(endQuizDivEl);
+        mainEl
         loadScores();
     })
 }
@@ -215,7 +230,7 @@ var endQuiz = function () {
 // quiz timer
 var quizTimer = function (event) {
     if (event.target === startBtnEl) {
-        var timeLeft = 3;
+        var timeLeft = 1;
 
         // display timer counting down from 5 minutes
         var timeInterval = setInterval(function () {
@@ -320,7 +335,26 @@ var startQuiz = function (event) {
     }
 }
 
+var clearScores = function(event) {
+    if (event.target.id === "clear-scores") {
+        mainEl.innerHTML = "";
+        highscores = [];
+        localStorage.setItem("scores", highscores);
+        loadScores();
+    }
+}
+
+var playAgain = function(event) {
+    if (event.target.id === "play-again") {
+        mainEl.innerHTML = "";
+        mainEl.appendChild(startEl);
+    }
+}
+
 mainEl.addEventListener("click", startQuiz);
 
 mainEl.addEventListener("click", quizTimer);
 
+mainEl.addEventListener("click", clearScores);
+
+mainEl.addEventListener("click", playAgain);
