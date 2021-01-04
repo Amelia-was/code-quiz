@@ -124,9 +124,6 @@ var questionArray = [question1, question2, question3, question4, question5, ques
 
 // end quiz function
 var endQuiz = function () {
-    // prevent form from reloading page
-    //event.preventDefault();
-
     // remove questions
     mainEl.innerHTML = "";
 
@@ -149,7 +146,6 @@ var endQuiz = function () {
     var scoreInputEl = document.createElement("input");
     scoreInputEl.setAttribute("type", "text");
     scoreInputEl.setAttribute("name", "initials");
-    var intitials = scoreInputEl.value;
     var submitButtonEl = document.createElement("button");
     submitButtonEl.textContent = "Submit";
     submitButtonEl.setAttribute("type", "submit");
@@ -162,14 +158,17 @@ var endQuiz = function () {
 
     mainEl.appendChild(enterScoreEl);
 
-    console.log(intitials);
+    enterScoreEl.addEventListener("submit", function(event) {
+        event.preventDefault();
+        console.log(document.querySelector("input[name='initials']").value);
+    })
 }
 
 
 // quiz timer
 var quizTimer = function (event) {
     if (event.target === startBtnEl) {
-        var timeLeft = 25;
+        var timeLeft = 3;
 
         // display timer counting down from 5 minutes
         var timeInterval = setInterval(function () {
