@@ -6,7 +6,11 @@ var timerEl = document.querySelector(".timer");
 var quizHeaderEl = document.querySelector(".quiz-header");
 var currentScore = 0;
 var counter = 0;
-var highscores = [];
+
+var highscores = JSON.parse(localStorage.getItem("scores"));
+if (!highscores) {
+    highscores = [];
+}
 
 // Questions
 var question1 = {
@@ -122,6 +126,32 @@ var question11 = {
 // Question array
 var questionArray = [question1, question2, question3, question4, question5, question6, question7, question8, question9, question10];
 
+// load high score table
+var loadScores = function () {
+    var highscoresEl = document.createElement("ul");
+    highscoresEl.className = "scores";
+    
+    // create high scores list
+    var scoreListHeaderEl = document.createElement("li");
+    var scoresHeadingEl = document.createElement("h2");
+    scoresHeadingEl.textContent= "High Scores"
+    scoreListHeaderEl.appendChild(scoresHeadingEl);
+
+    highscoresEl.appendChild(scoreListHeaderEl);
+
+    // iterate over highscores and append to high scores list
+    for (var i = 0; i < highscores.length; i++) {
+        var score = document.createElement("li");
+        score.textContent = highscores[i].name + ": " + highscores[i].score;
+        highscoresEl.appendChild(score);
+        console.log(score);
+    }
+
+    // append highscores to mainEl
+    mainEl.appendChild(highscoresEl);
+    console.log(highscores)
+}
+
 // end quiz and save score
 var endQuiz = function () {
     // remove questions
@@ -162,8 +192,22 @@ var endQuiz = function () {
     enterScoreEl.addEventListener("submit", function(event) {
         // prevent page reload
         event.preventDefault();
-        // save score and initials
-        console.log(document.querySelector("input[name='initials']").value);
+
+        // save score and initials into object
+        var initials = document.querySelector("input[name='initials']").value;
+
+        var highscoreObj = {
+            name: initials,
+            score: currentScore
+        }
+
+        // push highscore object to array and save to localStorage
+        highscores.push(highscoreObj);
+        localStorage.setItem("scores", JSON.stringify(highscores));
+
+        // clear form and load scores
+        mainEl.removeChild(enterScoreEl);
+        loadScores();
     })
 }
 

@@ -114,3 +114,19 @@ button:hover {
     background: var(--primary);
     color: var(--white);
 }
+
+.scores {
+    background-color: var(--secondary);
+    border: 2px solid rgba(0, 0, 0, 0.3);
+    padding: var(--spacer);
+    margin: var(--spacer);
+}
+
+li:nth-child(even) {
+    background-color: var(--tertiary);
+}
+
+.scores li {
+    list-style-type: none;
+    padding: var(--spacer);
+}
