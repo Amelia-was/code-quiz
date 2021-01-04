@@ -122,7 +122,7 @@ var question11 = {
 // Question array
 var questionArray = [question1, question2, question3, question4, question5, question6, question7, question8, question9, question10];
 
-// end quiz function
+// end quiz and save score
 var endQuiz = function () {
     // remove questions
     mainEl.innerHTML = "";
@@ -138,7 +138,7 @@ var endQuiz = function () {
     endQuizDivEl.appendChild(endQuizMessageEl);
     mainEl.appendChild(endQuizDivEl);
 
-    // enter intitials
+    // create form to enter initials
     var enterScoreEl = document.createElement("form");
     var enterMessageEl = document.createElement("p");
     enterMessageEl.textContent = "Enter your intitials to save your score!";
@@ -158,8 +158,11 @@ var endQuiz = function () {
 
     mainEl.appendChild(enterScoreEl);
 
+    // listener for form submit
     enterScoreEl.addEventListener("submit", function(event) {
+        // prevent page reload
         event.preventDefault();
+        // save score and initials
         console.log(document.querySelector("input[name='initials']").value);
     })
 }
