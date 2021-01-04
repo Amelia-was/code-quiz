@@ -2,9 +2,10 @@
 var mainEl = document.querySelector("main");
 var startBtnEl = document.querySelector(".start-btn");
 var startEl = document.querySelector("#start-div");
-var timerEl = document.querySelector(".timer");
 var quizHeaderEl = document.querySelector(".quiz-header");
-var endQuizDivEl = document.createElement("div");
+var timerEl = document.querySelector(".timer");
+var currentScoreEl = document.querySelector(".current-score");
+var scoreSpanEl = document.querySelector("#score");
 var currentScore = 0;
 var counter = 0;
 
@@ -174,6 +175,9 @@ var endQuiz = function () {
     // remove questions
     mainEl.innerHTML = "";
 
+    // create div for end quiz info/form
+    var endQuizDivEl = document.createElement("div");
+
     // append quiz score
     var endQuizMessageEl = document.createElement("h2");
     endQuizMessageEl.setAttribute("style", "white-space: pre;");
@@ -230,13 +234,13 @@ var endQuiz = function () {
 // quiz timer
 var quizTimer = function (event) {
     if (event.target === startBtnEl) {
-        var timeLeft = 1;
+        var timeLeft = 120;
 
         // display timer counting down from 5 minutes
         var timeInterval = setInterval(function () {
             var minutes = Math.floor(timeLeft / 60);
             var seconds = timeLeft % 60;
-            if (seconds < 10 && seconds > 0) {
+            if (seconds < 10 && seconds >= 0) {
                 timerEl.textContent = minutes + ":0" + seconds;
                 timeLeft--;
             }
@@ -259,6 +263,7 @@ var startQuiz = function (event) {
     // remove start screen
     if (event.target === startBtnEl) {
         startEl.remove();
+        quizHeaderEl.setAttribute("style", "opacity:100");
     }
 
     // check answer and update score and remove previous question
@@ -335,6 +340,7 @@ var startQuiz = function (event) {
     }
 }
 
+
 var clearScores = function(event) {
     if (event.target.id === "clear-scores") {
         mainEl.innerHTML = "";
@@ -346,10 +352,13 @@ var clearScores = function(event) {
 
 var playAgain = function(event) {
     if (event.target.id === "play-again") {
+        counter = 0;
+        currentScore = 0;
         mainEl.innerHTML = "";
         mainEl.appendChild(startEl);
     }
 }
+
 
 mainEl.addEventListener("click", startQuiz);
 
