@@ -6,6 +6,7 @@ var timerEl = document.querySelector(".timer");
 var quizHeaderEl = document.querySelector(".quiz-header");
 var currentScore = 0;
 var counter = 0;
+var highscores = [];
 
 // Questions
 var question1 = {
@@ -121,56 +122,12 @@ var question11 = {
 // Question array
 var questionArray = [question1, question2, question3, question4, question5, question6, question7, question8, question9, question10];
 
-// Loop through questionArray
-// Display question via createElement
-// event listener for click
-// check if selected matches correct
-// if matches, update score and display correct
-// if not, display incorrect
-// At end display score
-// allow user to input initials to save high score
-// save score and initials to localStorage
-// display all high scores
-
-// start timer
-// timer is green, turns red close to the end
-// if timer runs out, end quiz
-
-// compare selected answer to correct answer
-// display 'correct' or 'incorrect'
-/*
-var compareAnswer = function(event, correctAnswer) {
-    console.log(correctAnswer)
-    if (event.target.textContent === correctAnswer) {
-        console.log("Correct!");
-    }
-    else (
-        console.log("Incorrect.")
-    )
-}*/
-
-/*
-// check question answer
-var checkAnswer = function (correctAnswer, question) {
-    question.addEventListener("click", function (event) {
-        if (event.target.textContent === correctAnswer) {
-            console.log("Correct!");
-            currentScore++;
-            document.getElementById("score").textContent = currentScore;
-        }
-        else {
-            console.log("Incorrect.");
-        }
-
-        question.remove();
-    }
-    );
-} */
-
 // end quiz function
 var endQuiz = function () {
+    // prevent form from reloading page
+    //event.preventDefault();
+
     // remove questions
-    //quizHeaderEl.remove();
     mainEl.innerHTML = "";
 
     // create div for end quiz
@@ -183,13 +140,36 @@ var endQuiz = function () {
 
     endQuizDivEl.appendChild(endQuizMessageEl);
     mainEl.appendChild(endQuizDivEl);
+
+    // enter intitials
+    var enterScoreEl = document.createElement("form");
+    var enterMessageEl = document.createElement("p");
+    enterMessageEl.textContent = "Enter your intitials to save your score!";
+
+    var scoreInputEl = document.createElement("input");
+    scoreInputEl.setAttribute("type", "text");
+    scoreInputEl.setAttribute("name", "initials");
+    var intitials = scoreInputEl.value;
+    var submitButtonEl = document.createElement("button");
+    submitButtonEl.textContent = "Submit";
+    submitButtonEl.setAttribute("type", "submit");
+    submitButtonEl.setAttribute("id", "submit-score")
+
+    // append form to div then div to main
+    enterScoreEl.appendChild(enterMessageEl);
+    enterScoreEl.appendChild(scoreInputEl);
+    enterScoreEl.appendChild(submitButtonEl)
+
+    mainEl.appendChild(enterScoreEl);
+
+    console.log(intitials);
 }
 
 
 // quiz timer
 var quizTimer = function (event) {
     if (event.target === startBtnEl) {
-        var timeLeft = 100;
+        var timeLeft = 25;
 
         // display timer counting down from 5 minutes
         var timeInterval = setInterval(function () {
@@ -220,10 +200,28 @@ var startQuiz = function (event) {
         startEl.remove();
     }
 
-    // loop through question array
-    if (counter <= questionArray.length + 1) {
-        // check if there is a next question and append it
-        if (counter < questionArray.length) {
+    // check answer and update score and remove previous question
+    if (counter > 0 && event.target.className === "option") {
+        if (event.target.textContent === questionArray[counter - 1].correct) {
+            console.log("Correct!");
+            document.querySelector("main").className = "border-correct";
+            currentScore++;
+            document.getElementById("score").textContent = currentScore;
+        }
+        else {
+            console.log("Incorrect.");
+            document.querySelector("main").className = "border-incorrect";
+        }
+        document.getElementById(counter - 1).remove();
+    }
+
+    if (counter === questionArray.length) {
+        endQuiz();
+    }
+
+    if (counter < questionArray.length) {
+        // loop through question array
+        if (event.target === startBtnEl || event.target.className === "option") {
             // create div to hold question and options
             var questionDivEl = document.createElement("div");
             questionDivEl.setAttribute("id", counter);
@@ -270,29 +268,13 @@ var startQuiz = function (event) {
 
             // append questionDivEl to mainEl
             mainEl.appendChild(questionDivEl);
-        }
 
-        // check answer and update score
-        if (counter > 0) {
-            if (event.target.textContent === questionArray[counter - 1].correct) {
-                console.log("Correct!");
-                document.querySelector("main").className = "border-correct";
-                currentScore++;
-                document.getElementById("score").textContent = currentScore;
-            }
-            else {
-                console.log("Incorrect.");
-                document.querySelector("main").className = "border-incorrect";
-            }
-            document.getElementById(counter - 1).remove();
+            counter++;
         }
-        counter++;
-        if (counter > questionArray.length) {
-        endQuiz();
     }
-}
 }
 
 mainEl.addEventListener("click", startQuiz);
 
 mainEl.addEventListener("click", quizTimer);
+
