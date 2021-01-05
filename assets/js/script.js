@@ -2,12 +2,23 @@
 var mainEl = document.querySelector("main");
 var startBtnEl = document.querySelector(".start-btn");
 var startEl = document.querySelector("#start-div");
-var quizHeaderEl = document.querySelector(".quiz-header");
-var timerEl = document.querySelector(".timer");
-var currentScoreEl = document.querySelector(".current-score");
-var scoreSpanEl = document.querySelector("#score");
 var currentScore = 0;
 var counter = 0;
+var timeLeft = 120;
+
+//create quiz header
+var quizHeaderEl = document.createElement("div");
+quizHeaderEl.className = "quiz-header";
+
+var scoreDivEl = document.createElement("div");
+scoreDivEl.className = "score-div";
+
+var currentScoreEl = document.createElement("p");
+currentScoreEl.className = "current-score";
+currentScoreEl.innerHTML = "Current Score: " + "<span id='score'>0</span>" + "/15";
+
+var timerEl = document.createElement("p");
+timerEl.className = "timer";
 
 
 var highscores = localStorage.getItem("scores");
@@ -172,6 +183,8 @@ var loadScores = function () {
 
 // end quiz and save score
 var endQuiz = function () {
+    clearInterval();
+
     // remove questions
     mainEl.innerHTML = "";
 
@@ -234,12 +247,12 @@ var endQuiz = function () {
 // quiz timer
 var quizTimer = function (event) {
     if (event.target === startBtnEl) {
-        var timeLeft = 120;
 
         // display timer counting down from 5 minutes
         var timeInterval = setInterval(function () {
             var minutes = Math.floor(timeLeft / 60);
             var seconds = timeLeft % 60;
+
             if (seconds < 10 && seconds >= 0) {
                 timerEl.textContent = minutes + ":0" + seconds;
                 timeLeft--;
@@ -263,8 +276,15 @@ var startQuiz = function (event) {
     // remove start screen
     if (event.target === startBtnEl) {
         startEl.remove();
-        quizHeaderEl.setAttribute("style", "opacity:100");
+
+        // append quiz header to mainEl
+        scoreDivEl.appendChild(currentScoreEl);
+        quizHeaderEl.appendChild(scoreDivEl);
+        quizHeaderEl.appendChild(timerEl);
+
+        mainEl.appendChild(quizHeaderEl);
     }
+
 
     // check answer and update score and remove previous question
     if (counter > 0 && event.target.className === "option") {
@@ -282,7 +302,7 @@ var startQuiz = function (event) {
     }
 
     if (counter === questionArray.length) {
-        endQuiz();
+        timeLeft = -1;
     }
 
     if (counter < questionArray.length) {
@@ -354,6 +374,8 @@ var playAgain = function(event) {
     if (event.target.id === "play-again") {
         counter = 0;
         currentScore = 0;
+        timeLeft = 120;
+        currentScoreEl.innerHTML = "Current Score: " + "<span id='score'>0</span>" + "/15";
         mainEl.innerHTML = "";
         mainEl.appendChild(startEl);
     }

@@ -74,7 +74,6 @@ h2 {
 
 .quiz-header {
     display: flex;
-    opacity: 0;
     justify-content: space-between;
     align-items: center;
 }
