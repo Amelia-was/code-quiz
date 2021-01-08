@@ -285,6 +285,7 @@ var startQuiz = function (event) {
         // reset score tracker and make visible
         for (let i = 0; i< scoreTrackerSections.length; i++) {
             scoreTrackerSections[i].className = "score-tracker-section";
+            scoreTrackerSections[i].setAttribute("alt", "Incomplete");
         }
         
         // make quiz header visible
@@ -294,15 +295,16 @@ var startQuiz = function (event) {
 
     // check answer, update score, and remove previous question
     if (counter > 0 && event.target.className === "option") {
+        var prevQ = scoreTrackerSections[counter - 1];
         if (event.target.textContent === questionArray[counter - 1].correct) {
-            console.log("Correct!");
-            scoreTrackerSections[counter-1].className += " track-correct";
+            prevQ.className += " track-correct";
+            prevQ.setAttribute("alt", "Correct");
             currentScore++;
             document.getElementById("score").textContent = currentScore;
         }
         else {
-            console.log("Incorrect.");
-            scoreTrackerSections[counter-1].className += " track-incorrect";
+            prevQ.setAttribute("alt", "Incorrect");
+            prevQ.className += " track-incorrect";
         }
         document.getElementById(counter - 1).remove();
     }
