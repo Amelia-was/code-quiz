@@ -7,7 +7,7 @@ var scoreTrackerEl = document.getElementById("score-tracker");
 var scoreTrackerSections = scoreTrackerEl.children;
 var currentScore = 0;
 var counter = 0;
-var timeLeft = 120;
+var timeLeft = 1;
 
 //create quiz header
 var quizHeaderEl = document.createElement("div");
@@ -190,8 +190,10 @@ var loadScores = function () {
 var endQuiz = function () {
     clearInterval();
 
+    console.log(mainEl.lastElementChild);
+
     // remove questions
-    mainEl.innerHTML = "";
+    //mainEl.lastElementChild.remove();
 
     // create div for end quiz info/form
     var endQuizDivEl = document.createElement("div");
@@ -205,10 +207,13 @@ var endQuiz = function () {
     mainEl.appendChild(endQuizDivEl);
 
     // create form to enter initials
-    var enterScoreEl = document.createElement("form");
+    var enterScoreEl = document.createElement("div");
     var enterMessageEl = document.createElement("p");
     enterMessageEl.textContent = "Enter your intitials to save your score!";
 
+    var inputFormEl = document.createElement("form");
+    inputFormEl.className = "input-form";
+    console.log(inputFormEl);
     var scoreInputEl = document.createElement("input");
     scoreInputEl.setAttribute("type", "text");
     scoreInputEl.setAttribute("name", "initials");
@@ -217,10 +222,12 @@ var endQuiz = function () {
     submitButtonEl.setAttribute("type", "submit");
     submitButtonEl.setAttribute("id", "submit-score")
 
+    inputFormEl.appendChild(scoreInputEl);
+    inputFormEl.appendChild(submitButtonEl);
+
     // append form to div then div to main
     enterScoreEl.appendChild(enterMessageEl);
-    enterScoreEl.appendChild(scoreInputEl);
-    enterScoreEl.appendChild(submitButtonEl)
+    enterScoreEl.appendChild(inputFormEl);
 
     endQuizDivEl.appendChild(enterScoreEl);
 
@@ -297,17 +304,13 @@ var startQuiz = function (event) {
     if (counter > 0 && event.target.className === "option") {
         if (event.target.textContent === questionArray[counter - 1].correct) {
             console.log("Correct!");
-            mainEl.className = "border-correct";
             scoreTrackerSections[counter-1].className += " track-correct";
-            //console.log(scoreTrackerSections[counter]);
             currentScore++;
             document.getElementById("score").textContent = currentScore;
         }
         else {
             console.log("Incorrect.");
-            mainEl.className = "border-incorrect";
             scoreTrackerSections[counter-1].className += " track-incorrect";
-            //console.log(scoreTrackerSections[counter]);
         }
         document.getElementById(counter - 1).remove();
     }
@@ -374,7 +377,7 @@ var startQuiz = function (event) {
 
 var clearScores = function(event) {
     if (event.target.id === "clear-scores") {
-        mainEl.innerHTML = "";
+        mainEl.lastElementChild.remove();
         highscores = [];
         localStorage.setItem("scores", highscores);
         loadScores();
@@ -387,9 +390,10 @@ var playAgain = function(event) {
         currentScore = 0;
         timeLeft = 120;
         currentScoreEl.innerHTML = "Current Score: " + "<span id='score'>0</span>" + "/15";
-        mainEl.innerHTML = "";
+        mainEl.lastElementChild.remove();
+        mainEl.lastElementChild.remove();
+        scoreTrackerEl.style.visibility = "hidden";
         mainEl.appendChild(startEl);
-        scoreTrackerEl.style.visibility = "visible";
     }
 }
 

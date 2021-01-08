@@ -34,6 +34,7 @@ main {
     border-bottom: var(--spacer) solid var(--tertiary);
 }
 
+/*
 .border-correct {
     border-bottom: var(--spacer) solid var(--secondary);
 }
@@ -41,6 +42,7 @@ main {
 .border-incorrect {
     border-bottom: var(--spacer) solid var(--accent);
 }
+*/
 
 button {
     background-color: var(--secondary);
@@ -84,10 +86,10 @@ h2 {
     height: 100%;
     width: 5%;
     border: 2px solid rgba(0, 0, 0, 0.3);
-    border-right: none;
+    border-left: none;
 }
 
-.score-tracker-section:last-child {
+.score-tracker-section:first-child {
     border: 2px solid rgba(0, 0, 0, 0.3);
 }
 
@@ -141,6 +143,23 @@ button:hover {
     background: var(--primary);
     color: var(--white);
 }
+
+.input-form {
+    display: flex;
+    align-items: center;
+    flex-flow: row wrap;
+}
+
+/*
+input {
+    display: inline;
+}
+*/
+
+#submit-score {
+    margin: var(--spacer);
+}
+
 
 .scores {
     background-color: var(--secondary);
