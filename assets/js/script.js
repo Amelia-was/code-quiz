@@ -3,11 +3,11 @@ var mainEl = document.querySelector("main");
 var startBtnEl = document.querySelector(".start-btn");
 var startEl = document.querySelector("#start-div");
 var scoreTrackerEl = document.getElementById("score-tracker");
-//var scoreTrackerSectionEl = document.querySelectorAll(".score-tracker-section");
+//var scoreTrackerAllEl = document.getElementsByClassName(".score-tracker-section");
 var scoreTrackerSections = scoreTrackerEl.children;
 var currentScore = 0;
 var counter = 0;
-var timeLeft = 1;
+var timeLeft = 120;
 
 //create quiz header
 var quizHeaderEl = document.createElement("div");
@@ -213,7 +213,6 @@ var endQuiz = function () {
 
     var inputFormEl = document.createElement("form");
     inputFormEl.className = "input-form";
-    console.log(inputFormEl);
     var scoreInputEl = document.createElement("input");
     scoreInputEl.setAttribute("type", "text");
     scoreInputEl.setAttribute("name", "initials");
@@ -250,7 +249,7 @@ var endQuiz = function () {
 
         // clear form and load scores
         mainEl.removeChild(endQuizDivEl);
-        mainEl
+        scoreTrackerEl.style.visibility = "hidden";
         loadScores();
     })
 }
@@ -295,6 +294,11 @@ var startQuiz = function (event) {
         quizHeaderEl.appendChild(timerEl);
 
         mainEl.prepend(quizHeaderEl);
+
+        // reset score tracker and make visible
+        for (let i = 0; i< scoreTrackerSections.length; i++) {
+            scoreTrackerSections[i].className = "score-tracker-section";
+        }
 
         scoreTrackerEl.style.visibility = "visible";
     }
@@ -378,6 +382,7 @@ var startQuiz = function (event) {
 var clearScores = function(event) {
     if (event.target.id === "clear-scores") {
         mainEl.lastElementChild.remove();
+        mainEl.lastElementChild.remove();
         highscores = [];
         localStorage.setItem("scores", highscores);
         loadScores();
@@ -392,7 +397,6 @@ var playAgain = function(event) {
         currentScoreEl.innerHTML = "Current Score: " + "<span id='score'>0</span>" + "/15";
         mainEl.lastElementChild.remove();
         mainEl.lastElementChild.remove();
-        scoreTrackerEl.style.visibility = "hidden";
         mainEl.appendChild(startEl);
     }
 }
