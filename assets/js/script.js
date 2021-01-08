@@ -2,26 +2,17 @@
 var mainEl = document.querySelector("main");
 var startBtnEl = document.querySelector(".start-btn");
 var startEl = document.querySelector("#start-div");
+var quizHeaderEl = document.querySelector(".quiz-header");
+var scoreDivEl = document.querySelector(".score-div");
+var currentScoreEl = document.querySelector(".current-score");
+var scoreSpanEl = document.querySelector("#score");
+var timerEl = document.querySelector(".timer");
 var scoreTrackerEl = document.getElementById("score-tracker");
-//var scoreTrackerAllEl = document.getElementsByClassName(".score-tracker-section");
 var scoreTrackerSections = scoreTrackerEl.children;
 var currentScore = 0;
 var counter = 0;
 var timeLeft = 120;
 
-//create quiz header
-var quizHeaderEl = document.createElement("div");
-quizHeaderEl.className = "quiz-header";
-
-var scoreDivEl = document.createElement("div");
-scoreDivEl.className = "score-div";
-
-var currentScoreEl = document.createElement("p");
-currentScoreEl.className = "current-score";
-currentScoreEl.innerHTML = "Current Score: " + "<span id='score'>0</span>" + "/15";
-
-var timerEl = document.createElement("p");
-timerEl.className = "timer";
 
 
 
@@ -249,7 +240,7 @@ var endQuiz = function () {
 
         // clear form and load scores
         mainEl.removeChild(endQuizDivEl);
-        scoreTrackerEl.style.visibility = "hidden";
+        quizHeaderEl.style.display = "none";
         loadScores();
     })
 }
@@ -264,6 +255,10 @@ var quizTimer = function (event) {
             var minutes = Math.floor(timeLeft / 60);
             var seconds = timeLeft % 60;
 
+            if (timeLeft <= 15) {
+                timerEl.style.color = "var(--accent)";
+            }
+
             if (seconds < 10 && seconds >= 0) {
                 timerEl.textContent = minutes + ":0" + seconds;
                 timeLeft--;
@@ -274,7 +269,7 @@ var quizTimer = function (event) {
             }
             else {
                 clearInterval(timeInterval);
-                timerEl.textContent = "";
+                timerEl.textContent = "0:00";
                 endQuiz();
             }
         }, 1000);
@@ -288,19 +283,14 @@ var startQuiz = function (event) {
     if (event.target === startBtnEl) {
         startEl.remove();
 
-        // append quiz header to mainEl
-        scoreDivEl.appendChild(currentScoreEl);
-        quizHeaderEl.appendChild(scoreDivEl);
-        quizHeaderEl.appendChild(timerEl);
-
-        mainEl.prepend(quizHeaderEl);
-
         // reset score tracker and make visible
         for (let i = 0; i< scoreTrackerSections.length; i++) {
             scoreTrackerSections[i].className = "score-tracker-section";
         }
-
-        scoreTrackerEl.style.visibility = "visible";
+        
+        // make quiz header visible
+        quizHeaderEl.style.display = "block";
+        scoreDivEl.style.display = "flex";
     }
 
 
@@ -395,6 +385,7 @@ var playAgain = function(event) {
         currentScore = 0;
         timeLeft = 120;
         currentScoreEl.innerHTML = "Current Score: " + "<span id='score'>0</span>" + "/15";
+        timerEl.style.color = "var(--secondary)";
         mainEl.lastElementChild.remove();
         mainEl.lastElementChild.remove();
         mainEl.appendChild(startEl);

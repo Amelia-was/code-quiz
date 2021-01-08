@@ -34,16 +34,6 @@ main {
     border-bottom: var(--spacer) solid var(--tertiary);
 }
 
-/*
-.border-correct {
-    border-bottom: var(--spacer) solid var(--secondary);
-}
-
-.border-incorrect {
-    border-bottom: var(--spacer) solid var(--accent);
-}
-*/
-
 button {
     background-color: var(--secondary);
     display: block;
@@ -79,7 +69,6 @@ h2 {
     width: 100%;
     display: flex;
     background-color: var(--tertiary);
-    visibility: hidden;
 }
 
 .score-tracker-section {
@@ -102,17 +91,21 @@ h2 {
 }
 
 .quiz-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: none;
 }
 
 .timer {
     font-size: 45px;
     font-family: 'Yeseva One', cursive;
-    color: var(--accent);
+    color: var(--secondary);
     margin-left: var(--spacer);
     margin-bottom: var(--spacer);
+}
+
+.score-div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .code-div {
@@ -149,12 +142,6 @@ button:hover {
     align-items: center;
     flex-flow: row wrap;
 }
-
-/*
-input {
-    display: inline;
-}
-*/
 
 #submit-score {
     margin: var(--spacer);
