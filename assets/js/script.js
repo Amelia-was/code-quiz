@@ -11,7 +11,7 @@ var scoreTrackerEl = document.getElementById("score-tracker");
 var scoreTrackerSections = scoreTrackerEl.children;
 var currentScore = 0;
 var counter = 0;
-var timeLeft = 120;
+var timeLeft = 119;
 
 
 
@@ -179,12 +179,7 @@ var loadScores = function () {
 
 // end quiz and save score
 var endQuiz = function () {
-    clearInterval();
-
-    console.log(mainEl.lastElementChild);
-
-    // remove questions
-    //mainEl.lastElementChild.remove();
+    //clearInterval();
 
     // create div for end quiz info/form
     var endQuizDivEl = document.createElement("div");
@@ -270,6 +265,10 @@ var quizTimer = function (event) {
             else {
                 clearInterval(timeInterval);
                 timerEl.textContent = "0:00";
+                var isQuestion = document.getElementById(counter - 1);
+                if (isQuestion) {
+                    isQuestion.remove();
+                }
                 endQuiz();
             }
         }, 1000);
@@ -292,7 +291,6 @@ var startQuiz = function (event) {
         quizHeaderEl.style.display = "block";
         scoreDivEl.style.display = "flex";
     }
-
 
     // check answer, update score, and remove previous question
     if (counter > 0 && event.target.className === "option") {
@@ -371,11 +369,12 @@ var startQuiz = function (event) {
 
 var clearScores = function(event) {
     if (event.target.id === "clear-scores") {
-        mainEl.lastElementChild.remove();
-        mainEl.lastElementChild.remove();
+        var isScores = document.querySelector(".scores");
+        if (isScores) {
+            isScores.remove();
+        }
         highscores = [];
         localStorage.setItem("scores", highscores);
-        loadScores();
     }
 }
 
@@ -383,10 +382,14 @@ var playAgain = function(event) {
     if (event.target.id === "play-again") {
         counter = 0;
         currentScore = 0;
-        timeLeft = 120;
+        timeLeft = 119;
         currentScoreEl.innerHTML = "Current Score: " + "<span id='score'>0</span>" + "/15";
+        timerEl.textContent = "2:00";
         timerEl.style.color = "var(--secondary)";
-        mainEl.lastElementChild.remove();
+        var isScores = document.querySelector(".scores");
+        if (isScores) {
+            isScores.remove();
+        }
         mainEl.lastElementChild.remove();
         mainEl.appendChild(startEl);
     }
