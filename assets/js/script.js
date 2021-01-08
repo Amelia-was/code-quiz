@@ -2,6 +2,9 @@
 var mainEl = document.querySelector("main");
 var startBtnEl = document.querySelector(".start-btn");
 var startEl = document.querySelector("#start-div");
+var scoreTrackerEl = document.getElementById("score-tracker");
+//var scoreTrackerSectionEl = document.querySelectorAll(".score-tracker-section");
+var scoreTrackerSections = scoreTrackerEl.children;
 var currentScore = 0;
 var counter = 0;
 var timeLeft = 120;
@@ -19,6 +22,8 @@ currentScoreEl.innerHTML = "Current Score: " + "<span id='score'>0</span>" + "/1
 
 var timerEl = document.createElement("p");
 timerEl.className = "timer";
+
+
 
 
 var highscores = localStorage.getItem("scores");
@@ -282,21 +287,27 @@ var startQuiz = function (event) {
         quizHeaderEl.appendChild(scoreDivEl);
         quizHeaderEl.appendChild(timerEl);
 
-        mainEl.appendChild(quizHeaderEl);
+        mainEl.prepend(quizHeaderEl);
+
+        scoreTrackerEl.style.visibility = "visible";
     }
 
 
-    // check answer and update score and remove previous question
+    // check answer, update score, and remove previous question
     if (counter > 0 && event.target.className === "option") {
         if (event.target.textContent === questionArray[counter - 1].correct) {
             console.log("Correct!");
-            document.querySelector("main").className = "border-correct";
+            mainEl.className = "border-correct";
+            scoreTrackerSections[counter-1].className += " track-correct";
+            //console.log(scoreTrackerSections[counter]);
             currentScore++;
             document.getElementById("score").textContent = currentScore;
         }
         else {
             console.log("Incorrect.");
-            document.querySelector("main").className = "border-incorrect";
+            mainEl.className = "border-incorrect";
+            scoreTrackerSections[counter-1].className += " track-incorrect";
+            //console.log(scoreTrackerSections[counter]);
         }
         document.getElementById(counter - 1).remove();
     }
@@ -378,6 +389,7 @@ var playAgain = function(event) {
         currentScoreEl.innerHTML = "Current Score: " + "<span id='score'>0</span>" + "/15";
         mainEl.innerHTML = "";
         mainEl.appendChild(startEl);
+        scoreTrackerEl.style.visibility = "visible";
     }
 }
 

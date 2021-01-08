@@ -72,6 +72,33 @@ h2 {
     margin: var(--spacer) 0;
 }
 
+#score-tracker {
+    height: var(--spacer);
+    width: 100%;
+    display: flex;
+    background-color: var(--tertiary);
+    visibility: hidden;
+}
+
+.score-tracker-section {
+    height: 100%;
+    width: 5%;
+    border: 2px solid rgba(0, 0, 0, 0.3);
+    border-right: none;
+}
+
+.score-tracker-section:last-child {
+    border: 2px solid rgba(0, 0, 0, 0.3);
+}
+
+.track-correct {
+    background-color: var(--secondary);
+}
+
+.track-incorrect {
+    background-color: var(--accent);
+}
+
 .quiz-header {
     display: flex;
     justify-content: space-between;
