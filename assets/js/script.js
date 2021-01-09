@@ -13,10 +13,7 @@ var currentScore = 0;
 var counter = 0;
 var timeLeft = 299;
 
-
-
-
-
+// get highscores from localStorage
 var highscores = localStorage.getItem("scores");
 if (!highscores) {
     highscores = [];
@@ -89,15 +86,35 @@ var question6 = {
 var question7 = {
     q: "7. What will be printed in the console when the following code is run?",
     code: "for (var i = 0; i < 4; i++) {\r\n  console.log(i);\r\n}",
-    a1: "1\r\n2\r\n3\r\n4",
-    a2: "0\r\n1\r\n2\r\n3",
-    a3: "'0'\r\n'1'\r\n'2'\r\n'3'",
-    a4: "'1'\r\n'2'\r\n'3'\r\n'4'",
-    correct: "0\r\n1\r\n2\r\n3"
+    a1: "1 2 3 4",
+    a2: "0 1 2 3",
+    a3: "'0' '1' '2' '3'",
+    a4: "'1' '2' '3' '4'",
+    correct: "0 1 2 3"
 }
 
 var question8 = {
-    q: "8. Which of the following creates a window with an 'OK' and 'Cancel' button?",
+    q: "8. Where is the correct place to link a stylesheet?",
+    code: "",
+    a1: "At the top of the <body> tag",
+    a2: "At the bottom of the <body> tag",
+    a3: "Between the <head> tags",
+    a4: "Between the <title> tags",
+    correct: "Between the <head> tags"
+}
+
+var question9 = {
+    q: "9. Where should <script> tags be placed?",
+    code: "",
+    a1: "At the bottom of the <body> tag",
+    a2: "Between the <head> tags",
+    a3: "At the top of the <body> tag",
+    a4: "Between the <title> tags",
+    correct: "At the bottom of the <body> tag"
+}
+
+var question10 = {
+    q: "10. Which of the following creates a window with an 'OK' and 'Cancel' button?",
     code: "",
     a1: "window.confirm('Do you like hamburgers?');",
     a2: "window.alert('Do you like hamburgers?');",
@@ -106,8 +123,8 @@ var question8 = {
     correct: "window.confirm('Do you like hamburgers?');"
 }
 
-var question9 = {
-    q: "9. What will be printed in the console when the following code is run?",
+var question11 = {
+    q: "11. What will be printed in the console when the following code is run?",
     code: "var condition = '';\r\nif (condition) {\r\n  console.log('Deciduous trees');\r\n}\r\nelse {\r\n  console.log('Aurora Borealis');\r\n}",
     a1: "' '",
     a2: "Nothing",
@@ -116,8 +133,8 @@ var question9 = {
     correct: "'Aurora Borealis'"
 }
 
-var question10 = {
-    q: "10. How do you retrieve an item from localStorage?",
+var question12 = {
+    q: "12. How do you retrieve an item from localStorage?",
     code: "",
     a1: "localStorage.getValue('storedValue');",
     a2: "localStorage.getItem('storedValue');",
@@ -126,18 +143,89 @@ var question10 = {
     correct: "localStorage.getItem('storedValue');"
 }
 
-var question11 = {
-    q: "",
+var question13 = {
+    q: "13. What is the proper way to link a stylesheet?",
     code: "",
-    a1: "",
-    a2: "",
-    a3: "",
-    a4: "",
-    correct: ""
+    a1: "<link href='stylesheet' rel='style.css'>",
+    a2: "<link rel='stylesheet' href='style.css'>",
+    a3: "<link type='stylesheet' src='style.css'>",
+    a4: "<link rel='style.css'>",
+    correct: "<link rel='stylesheet' href='style.css'>"
+}
+
+
+var question14 = {
+    q: "14. Which is a proper class declaration?",
+    code: "",
+    a1: ".my-class {\r\n  color: #000000\r\n}",
+    a2: "class'my-class' {\r\n  color: #000000\r\n}",
+    a3: "#my-class {\r\n  color: #000000\r\n}",
+    a4: "class:my-class {\r\n  color: #000000\r\n}",
+    correct: ".my-class {\r\n  color: #000000\r\n}"
+}
+
+var question15 = {
+    q: "15. Which of the following is an example of a pseudo-class?",
+    code: "",
+    a1: "hover {\r\n  color: #FFFFFF\r\n}",
+    a2: ".hover {\r\n  color: #FFFFFF\r\n}",
+    a3: "a .hover {\r\n  color: #FFFFFF\r\n}",
+    a4: "a:hover {\r\n  color: #FFFFFF\r\n}",
+    correct: "a:hover {\r\n  color: #FFFFFF\r\n}"
+}
+
+var question16 = {
+    q: "16. Which of the following is the universal selector?",
+    code: "",
+    a1: ":root",
+    a2: "*",
+    a3: "body",
+    a4: "html",
+    correct: "*"
+}
+
+var question17 = {
+    q: "17. What will the following code produce on the webpage?",
+    code: "var newDiv = document.createElement('div');\r\nnewDiv.textContent = “<strong>Inertia is a property of matter</strong>;\r\ndocument.body.appendChild(newDiv);",
+    a1: "A div containing the bolded text 'Inertia is a property of matter'",
+    a2: "A div containing the text 'Inertia is a property of matter'",
+    a3: "A div containing the text '<strong>Inertia is a property of matter</strong>'",
+    a4: "An empty div",
+    correct: "A div containing the text '<strong>Inertia is a property of matter</strong>'"
+}
+
+var question18 = {
+    q: "18. What will the following code produce on the webpage?",
+    code: "var someText = document.createElement('p');\r\nsomeText.textContent = 'It was the best of times; it was the worst of times.';\r\nvar newDiv = document.createElement('div');\r\nnewDiv.appendChild(someText);",
+    a1: "A div containing an empty <p> element",
+    a2: "An empty div",
+    a3: "Nothing; the div was not appended to the document",
+    a4: "A div containing a <p> element with the text 'It was the best of times; it was the worst of times.'",
+    correct: "Nothing; the div was not appended to the document"
+}
+
+var question19 = {
+    q: "19. Which of the following is a JavaScript object?",
+    code: "",
+    a1: "var newBook = {\r\n  title: 'The BFG'\r\n};",
+    a2: "var newBook = 'The Cat in the Hat';",
+    a3: "var newBook = ['title', 'Winnie the Pooh'];",
+    a4: "var newBook = [title: 'The Gruffalo'];",
+    correct: "var newBook = {\r\n  title: 'The BFG'\r\n};"
+}
+
+var question20 = {
+    q: "20. What is the proper way to style all <button> and all <a> elements?",
+    code: "",
+    a1: "a button {\r\n  border: 2px\r\n}",
+    a2: "a:button {\r\n  border: 2px\r\n}",
+    a3: "button, a {\r\n  border: 2px\r\n}",
+    a4: "button a {\r\n  border: 2px\r\n}",
+    correct: "button, a {\r\n  border: 2px\r\n}"
 }
 
 // Question array
-var questionArray = [question1, question2, question3, question4, question5, question6, question7, question8, question9, question10];
+var questionArray = [question1, question2, question3, question4, question5, question6, question7, question8, question9, question10, question11, question12, question13, question14, question15, question16, question17, question18, question19, question20];
 
 // load high score table
 var loadScores = function () {
@@ -333,7 +421,7 @@ var startQuiz = function (event) {
             questionEl.textContent = questionArray[counter].q;
             var questionCodeEl = document.createElement("div");
             questionCodeEl.className = "code-div";
-            questionCodeEl.setAttribute("style", "white-space: pre;");
+            //questionCodeEl.setAttribute("style", "white-space: pre;");
             questionCodeEl.textContent = questionArray[counter].code;
 
             // options
