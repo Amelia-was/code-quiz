@@ -11,7 +11,7 @@ var scoreTrackerEl = document.getElementById("score-tracker");
 var scoreTrackerSections = scoreTrackerEl.children;
 var currentScore = 0;
 var counter = 0;
-var timeLeft = 2;
+var timeLeft = 299;
 
 
 
@@ -310,6 +310,7 @@ var startQuiz = function (event) {
             document.getElementById("score").textContent = currentScore;
         }
         else {
+            timeLeft -= 5;
             prevQ.setAttribute("alt", "Incorrect");
             prevQ.className += " track-incorrect";
         }
@@ -391,9 +392,9 @@ var playAgain = function(event) {
     if (event.target.id === "play-again") {
         counter = 0;
         currentScore = 0;
-        timeLeft = 2;
+        timeLeft = 299;
         currentScoreEl.innerHTML = "Current Score: " + "<span id='score'>0</span>" + "/15";
-        timerEl.textContent = "2:00";
+        timerEl.textContent = "5:00";
         timerEl.style.color = "var(--secondary)";
         var isScores = document.querySelector(".scores");
         if (isScores) {
