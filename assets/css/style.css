@@ -15,10 +15,15 @@
 
 body {
     background: var(--primary);
-    padding: 100px 200px;
+    padding-top: 100px;
     font-family: 'Roboto', sans-serif;
     color: var(--primary);
     font-size: 16px;
+}
+
+.container {
+    max-width: 1024px;
+    margin: 0 auto;
 }
 
 h1 {
@@ -98,11 +103,10 @@ h2 {
     font-size: 45px;
     font-family: 'Yeseva One', cursive;
     color: var(--secondary);
-    margin-left: var(--spacer);
-    margin-bottom: var(--spacer);
 }
 
 .score-div {
+    margin-bottom: var(--spacer);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -110,9 +114,10 @@ h2 {
 
 .code-div {
     background: var(--tertiary);
-    max-width: max-content;
+    width: max-content;
     padding: var(--spacer);
     margin: var(--spacer);
+    overflow: auto;
     border: 2px solid rgba(0, 0, 0, 0.3);
     font-family: 'Monaco', 'Lucida Sans', 'Lucida Sans Regular', 'Arial', sans-serif;
 }
@@ -147,12 +152,29 @@ button:hover {
     margin: var(--spacer);
 }
 
+.highscores-div {
+    display: flex;
+    flex-flow: row wrap;
+    margin: var(--spacer) auto;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.end-buttons {
+    display: flex;
+    flex-flow: column wrap;
+}
+
+.end-button {
+    min-width: max-content;
+    margin: var(--spacer);
+}
 
 .scores {
     background-color: var(--secondary);
     border: 2px solid rgba(0, 0, 0, 0.3);
-    margin: var(--spacer) auto;
-    width: 50%;
+    width: 70%;
+    min-width: 725px;
 }
 
 li:nth-child(even) {
@@ -162,4 +184,95 @@ li:nth-child(even) {
 .scores li {
     list-style-type: none;
     padding: var(--spacer);
+}
+
+/* MEDIA QUERIES */
+/* tablets and smaller <1024px */
+@media screen and (max-width: 1024px) {
+    body {
+        padding-top: 50px;
+    }
+    h1 {
+        margin: var(--spacer);
+    }
+    main {
+        min-height: 500px;
+    }
+    #start-div {
+        margin-top: 100px;
+    }
+}
+
+/* small tablets and smaller <768px */
+@media screen and (max-width: 1024px) {
+    .end-buttons {
+        margin-top: var(--spacer);
+        flex-flow: row wrap;
+    }
+}
+
+/* large phones and smaller <575px */
+@media screen and (max-width: 575px) {
+    body {
+        padding: 0;
+        font-size: 14px;
+    }
+
+    .container {
+        margin: 0;
+    }
+
+    main {
+        margin: 0;
+        padding: 10px;
+        min-height: 800px;
+    }
+
+    h1 {
+        font-size: 24px;
+        margin: var(--spacer);
+        text-align: center;
+    }
+
+    h2 {
+        font-size: 20px;
+        margin: 10px;
+    }
+
+    .score-div {
+        margin-bottom: var(--spacer);
+    }
+
+    #score-tracker {
+        height: 10px;
+    }
+
+    .score-tracker-section {
+        border: 1px solid rgba(0, 0, 0, 0.3);
+        border-left: none;
+    }
+
+    .score-tracker-section:first-child {
+        border: 1px solid rgba(0, 0, 0, 0.3);
+    }
+
+    .code-div {
+        margin: 10px auto;
+    }
+
+    .option {
+        max-width: max-content;
+    }
+
+    .well-done {
+        margin-top: 100px;
+    }
+
+    .scores {
+        min-width: 100%;
+    }
+
+    .scores li {
+        padding: 10px;
+    }
 }

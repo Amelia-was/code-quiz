@@ -11,7 +11,7 @@ var scoreTrackerEl = document.getElementById("score-tracker");
 var scoreTrackerSections = scoreTrackerEl.children;
 var currentScore = 0;
 var counter = 0;
-var timeLeft = 119;
+var timeLeft = 2;
 
 
 
@@ -141,6 +141,8 @@ var questionArray = [question1, question2, question3, question4, question5, ques
 
 // load high score table
 var loadScores = function () {
+    var highscoresDivEl = document.createElement("div");
+    highscoresDivEl.className = "highscores-div";
     var highscoresEl = document.createElement("ul");
     highscoresEl.className = "scores";
     
@@ -159,22 +161,27 @@ var loadScores = function () {
         highscoresEl.appendChild(score);
     }
 
-    // append highscores to mainEl
-    mainEl.appendChild(highscoresEl);
+    // append highscores to highscoresDivEl
+    highscoresDivEl.appendChild(highscoresEl);
 
     // create play again/clear buttons
     var buttonsDivEl = document.createElement("div");
+    buttonsDivEl.className = "end-buttons";
     var playAgainButtonEl = document.createElement("button");
     playAgainButtonEl.textContent = "Play again"
     playAgainButtonEl.setAttribute("id", "play-again")
+    playAgainButtonEl.className = "end-button";
     var clearScoresButtonEl = document.createElement("button");
     clearScoresButtonEl.textContent = "Clear scores";
     clearScoresButtonEl.setAttribute("id", "clear-scores");
+    clearScoresButtonEl.className = "end-button";
 
     buttonsDivEl.appendChild(playAgainButtonEl);
     buttonsDivEl.appendChild(clearScoresButtonEl);
     
-    mainEl.appendChild(buttonsDivEl);
+    // append to highscoresDivEl and then mainEl
+    highscoresDivEl.appendChild(buttonsDivEl);
+    mainEl.appendChild(highscoresDivEl);
 }
 
 // end quiz and save score
@@ -186,8 +193,8 @@ var endQuiz = function () {
 
     // append quiz score
     var endQuizMessageEl = document.createElement("h2");
-    endQuizMessageEl.setAttribute("style", "white-space: pre;");
-    endQuizMessageEl.textContent = "Well done! You have completed the quiz.\nYour final score is: " + currentScore;
+    endQuizMessageEl.innerHTML = "Well done! You have completed the quiz.<br>Your final score is: " + currentScore;
+    endQuizMessageEl.className = "well-done";
 
     endQuizDivEl.appendChild(endQuizMessageEl);
     mainEl.appendChild(endQuizDivEl);
@@ -384,7 +391,7 @@ var playAgain = function(event) {
     if (event.target.id === "play-again") {
         counter = 0;
         currentScore = 0;
-        timeLeft = 119;
+        timeLeft = 2;
         currentScoreEl.innerHTML = "Current Score: " + "<span id='score'>0</span>" + "/15";
         timerEl.textContent = "2:00";
         timerEl.style.color = "var(--secondary)";
