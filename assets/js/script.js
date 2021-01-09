@@ -11,7 +11,7 @@ var scoreTrackerEl = document.getElementById("score-tracker");
 var scoreTrackerSections = scoreTrackerEl.children;
 var currentScore = 0;
 var counter = 0;
-var timeLeft = 299;
+var timeLeft = 359;
 
 // get highscores from localStorage
 var highscores = localStorage.getItem("scores");
@@ -146,11 +146,11 @@ var question12 = {
 var question13 = {
     q: "13. What is the proper way to link a stylesheet?",
     code: "",
-    a1: "<link href='stylesheet' rel='style.css'>",
-    a2: "<link rel='stylesheet' href='style.css'>",
-    a3: "<link type='stylesheet' src='style.css'>",
-    a4: "<link rel='style.css'>",
-    correct: "<link rel='stylesheet' href='style.css'>"
+    a1: "<link href='stylesheet' rel='style.css' />",
+    a2: "<link rel='stylesheet' href='style.css' />",
+    a3: "<link type='stylesheet' src='style.css' />",
+    a4: "<link rel='style.css' />",
+    correct: "<link rel='stylesheet' href='style.css' />"
 }
 
 
@@ -158,7 +158,7 @@ var question14 = {
     q: "14. Which is a proper class declaration?",
     code: "",
     a1: ".my-class {\r\n  color: #000000\r\n}",
-    a2: "class'my-class' {\r\n  color: #000000\r\n}",
+    a2: "class='my-class' {\r\n  color: #000000\r\n}",
     a3: "#my-class {\r\n  color: #000000\r\n}",
     a4: "class:my-class {\r\n  color: #000000\r\n}",
     correct: ".my-class {\r\n  color: #000000\r\n}"
@@ -186,7 +186,7 @@ var question16 = {
 
 var question17 = {
     q: "17. What will the following code produce on the webpage?",
-    code: "var newDiv = document.createElement('div');\r\nnewDiv.textContent = “<strong>Inertia is a property of matter</strong>;\r\ndocument.body.appendChild(newDiv);",
+    code: "var newDiv = document.createElement('div');\r\nnewDiv.textContent = '<strong>Inertia is a property of matter</strong>';\r\ndocument.body.appendChild(newDiv);",
     a1: "A div containing the bolded text 'Inertia is a property of matter'",
     a2: "A div containing the text 'Inertia is a property of matter'",
     a3: "A div containing the text '<strong>Inertia is a property of matter</strong>'",
@@ -207,11 +207,11 @@ var question18 = {
 var question19 = {
     q: "19. Which of the following is a JavaScript object?",
     code: "",
-    a1: "var newBook = {\r\n  title: 'The BFG'\r\n};",
+    a1: "var newBook = {title: 'The BFG'};",
     a2: "var newBook = 'The Cat in the Hat';",
     a3: "var newBook = ['title', 'Winnie the Pooh'];",
     a4: "var newBook = [title: 'The Gruffalo'];",
-    correct: "var newBook = {\r\n  title: 'The BFG'\r\n};"
+    correct: "var newBook = {title: 'The BFG'};"
 }
 
 var question20 = {
@@ -287,16 +287,16 @@ var endQuiz = function () {
     endQuizDivEl.appendChild(endQuizMessageEl);
     mainEl.appendChild(endQuizDivEl);
 
-    // create form to enter initials
+    // create form to enter name
     var enterScoreEl = document.createElement("div");
     var enterMessageEl = document.createElement("p");
-    enterMessageEl.textContent = "Enter your intitials to save your score!";
+    enterMessageEl.textContent = "Enter your name to save your score!";
 
     var inputFormEl = document.createElement("form");
     inputFormEl.className = "input-form";
     var scoreInputEl = document.createElement("input");
     scoreInputEl.setAttribute("type", "text");
-    scoreInputEl.setAttribute("name", "initials");
+    scoreInputEl.setAttribute("name", "name");
     var submitButtonEl = document.createElement("button");
     submitButtonEl.textContent = "Submit";
     submitButtonEl.setAttribute("type", "submit");
@@ -312,26 +312,33 @@ var endQuiz = function () {
     endQuizDivEl.appendChild(enterScoreEl);
 
     // listener for form submit
-    enterScoreEl.addEventListener("submit", function(event) {
+    enterScoreEl.addEventListener("submit", function (event) {
         // prevent page reload
         event.preventDefault();
 
-        // save score and initials into object
-        var initials = document.querySelector("input[name='initials']").value;
+        // save score and name into object
+        var nameEntered = document.querySelector("input[name='name']").value;
 
-        var highscoreObj = {
-            name: initials,
-            score: currentScore
+        // check if name is blank
+        if (!nameEntered) {
+            window.alert("Please enter a valid name.");
         }
+        else {
+            // save name and score as object
+            var highscoreObj = {
+                name: nameEntered,
+                score: currentScore
+            };
 
-        // push highscore object to array and save to localStorage
-        highscores.push(highscoreObj);
-        localStorage.setItem("scores", JSON.stringify(highscores));
+            // push highscore object to array and save to localStorage
+            highscores.push(highscoreObj);
+            localStorage.setItem("scores", JSON.stringify(highscores));
 
-        // clear form and load scores
-        mainEl.removeChild(endQuizDivEl);
-        quizHeaderEl.style.display = "none";
-        loadScores();
+            // clear form and load scores
+            mainEl.removeChild(endQuizDivEl);
+            quizHeaderEl.style.display = "none";
+            loadScores();
+        };
     })
 }
 
@@ -395,10 +402,10 @@ var startQuiz = function (event) {
             prevQ.className += " track-correct";
             prevQ.setAttribute("alt", "Correct");
             currentScore++;
-            document.getElementById("score").textContent = currentScore;
+            scoreSpanEl.textContent = currentScore;
         }
         else {
-            timeLeft -= 5;
+            timeLeft -= 10;
             prevQ.setAttribute("alt", "Incorrect");
             prevQ.className += " track-incorrect";
         }
@@ -473,6 +480,7 @@ var clearScores = function(event) {
         }
         highscores = [];
         localStorage.setItem("scores", highscores);
+        document.getElementById("clear-scores").remove();
     }
 }
 
@@ -480,9 +488,10 @@ var playAgain = function(event) {
     if (event.target.id === "play-again") {
         counter = 0;
         currentScore = 0;
-        timeLeft = 299;
-        currentScoreEl.innerHTML = "Current Score: " + "<span id='score'>0</span>" + "/15";
-        timerEl.textContent = "5:00";
+        timeLeft = 359;
+        //currentScoreEl.innerHTML = "Current Score: " + "<span id='score'>0</span>" + "/20";
+        scoreSpanEl.textContent = currentScore
+        timerEl.textContent = "6:00";
         timerEl.style.color = "var(--secondary)";
         var isScores = document.querySelector(".scores");
         if (isScores) {

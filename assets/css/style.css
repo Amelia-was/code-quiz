@@ -16,7 +16,7 @@
 
 body {
     background: var(--primary);
-    padding-top: 100px;
+    padding-top: 50px;
     font-family: 'Roboto', sans-serif;
     color: var(--primary);
     font-size: 16px;
@@ -192,9 +192,6 @@ li:nth-child(even) {
 /* MEDIA QUERIES */
 /* tablets and smaller <1024px */
 @media screen and (max-width: 1024px) {
-    body {
-        padding-top: 50px;
-    }
     h1 {
         margin: var(--spacer);
     }
