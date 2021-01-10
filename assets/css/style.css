@@ -1,3 +1,4 @@
+/* main body styles */
 * {
     margin: 0;
     padding: 0;
@@ -27,6 +28,13 @@ body {
     margin: 0 auto;
 }
 
+main {
+    background: var(--white);
+    padding: var(--spacer);
+    border-bottom: var(--spacer) solid var(--tertiary);
+}
+
+/* headings */
 h1 {
     font-size: 45px;
     color: var(--tertiary);
@@ -34,16 +42,15 @@ h1 {
     font-family: 'Yeseva One', cursive;
 }
 
-main {
-    background: var(--white);
-    padding: var(--spacer);
-    border-bottom: var(--spacer) solid var(--tertiary);
+h2 {
+    font-size: 32px;
+    margin: var(--spacer) 0;
 }
 
+/* buttons */
 button {
     background: var(--secondary);
     display: block;
-    max-width: 70%;
     line-height: 1.3;
     padding: var(--sm-spacer);
     margin-bottom: var(--sm-spacer);
@@ -55,21 +62,23 @@ button {
     text-align: left;
 }
 
+button:hover {
+    background: var(--primary);
+    color: var(--white);
+}
+
+/* start screen */
+#start-div {
+    text-align: center;
+}
+
 .start-btn {
     font-size: 24px;
     margin: 50px auto;
     padding: var(--sm-spacer) var(--spacer);
 }
 
-#start-div {
-    text-align: center;
-}
-
-h2 {
-    font-size: 32px;
-    margin: var(--spacer) 0;
-}
-
+/* score tracker */
 #score-tracker {
     height: var(--spacer);
     width: 100%;
@@ -96,6 +105,7 @@ h2 {
     background: var(--accent);
 }
 
+/* quiz score and timer */
 .quiz-header {
     display: none;
 }
@@ -113,38 +123,22 @@ h2 {
     align-items: center;
 }
 
+/* quiz questions */
 .code-div {
     background: var(--tertiary);
-    width: max-content;
+    max-width: max-content;
     padding: var(--spacer);
     margin: var(--spacer);
-    overflow: auto;
-    white-space: pre;
+    white-space: pre-wrap;
     border: 2px solid rgba(0, 0, 0, 0.3);
     font-family: 'Monaco', 'Lucida Sans', 'Lucida Sans Regular', 'Arial', sans-serif;
 }
 
 .option {
-    background: var(--secondary);
-    display: block;
-    max-width: 70%;
-    line-height: 1.3;
-    padding: var(--sm-spacer);
-    margin-bottom: var(--sm-spacer);
-    white-space: pre;
-    border-radius: 5px;
-    border: none;
-    font-family: inherit;
-    color: inherit;
-    font-size: inherit;
-    text-align: left;
+    white-space: pre-wrap;
 }
 
-button:hover {
-    background: var(--primary);
-    color: var(--white);
-}
-
+/* name input */
 .input-form {
     display: flex;
     align-items: center;
@@ -155,22 +149,13 @@ button:hover {
     margin: var(--spacer);
 }
 
+/* highscores page */
 .highscores-div {
     display: flex;
     flex-flow: row wrap;
     margin: var(--spacer) auto;
     justify-content: space-around;
     align-items: flex-start;
-}
-
-.end-buttons {
-    display: flex;
-    flex-flow: column wrap;
-}
-
-.end-button {
-    min-width: max-content;
-    margin: var(--spacer);
 }
 
 .scores {
@@ -188,6 +173,17 @@ li:nth-child(even) {
     list-style-type: none;
     padding: var(--sm-spacer);
 }
+
+.end-buttons {
+    display: flex;
+    flex-flow: column wrap;
+}
+
+.end-button {
+    min-width: max-content;
+    margin: var(--spacer);
+}
+
 
 /* MEDIA QUERIES */
 /* tablets and smaller <1024px */
@@ -258,10 +254,8 @@ li:nth-child(even) {
 
     .code-div {
         margin: var(--sm-spacer) auto;
-    }
-
-    .option {
-        max-width: max-content;
+        padding: var(--sm-spacer);
+        font-size: 12px;
     }
 
     .well-done {

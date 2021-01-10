@@ -428,7 +428,6 @@ var startQuiz = function (event) {
             questionEl.textContent = questionArray[counter].q;
             var questionCodeEl = document.createElement("div");
             questionCodeEl.className = "code-div";
-            //questionCodeEl.setAttribute("style", "white-space: pre;");
             questionCodeEl.textContent = questionArray[counter].code;
 
             // options
@@ -471,42 +470,56 @@ var startQuiz = function (event) {
     }
 }
 
-
+// clear highcores
 var clearScores = function(event) {
     if (event.target.id === "clear-scores") {
+        // check if there are any scores
         var isScores = document.querySelector(".scores");
         if (isScores) {
             isScores.remove();
         }
+
+        // update highscores
         highscores = [];
         localStorage.setItem("scores", highscores);
+
+        // remove clear scores button
         document.getElementById("clear-scores").remove();
     }
 }
 
+// play again
 var playAgain = function(event) {
     if (event.target.id === "play-again") {
+        // reset global variables
         counter = 0;
         currentScore = 0;
         timeLeft = 359;
-        //currentScoreEl.innerHTML = "Current Score: " + "<span id='score'>0</span>" + "/20";
         scoreSpanEl.textContent = currentScore
         timerEl.textContent = "6:00";
         timerEl.style.color = "var(--secondary)";
+
+        // remove scores
         var isScores = document.querySelector(".scores");
         if (isScores) {
             isScores.remove();
         }
         mainEl.lastElementChild.remove();
+
+        // append start screen to mainEl
         mainEl.appendChild(startEl);
     }
 }
 
-
+// event listeners
+// listener for start quiz
 mainEl.addEventListener("click", startQuiz);
 
+// listener for timer
 mainEl.addEventListener("click", quizTimer);
 
+// listener for clear scores button
 mainEl.addEventListener("click", clearScores);
 
+// listener for play again button
 mainEl.addEventListener("click", playAgain);
